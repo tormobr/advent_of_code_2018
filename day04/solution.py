@@ -36,11 +36,11 @@ def get_max(G):
     return best2[0], best[0]
 
 def get_max2(G):
-    best = (0,0)
+    best = (0,0,0)
     for k, v in G.items():
         for key, value in v.items():
-            if value > best[1]:
-                best = (k, value)
+            if value > best[2]:
+                best = (k,key, value)
     return best
 
 def parse_line(line):
