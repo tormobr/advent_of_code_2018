@@ -19,7 +19,7 @@ def part1(data):
                     if i not in G[guard].keys():
                         G[guard][i] = 0
                     G[guard][i] += 1
-    return get_max(G)
+    return get_max2(G)
 def get_max(G):
     best = (0,0)
     for k, v in G.items():
@@ -28,11 +28,20 @@ def get_max(G):
             total_mins += value
         if total_mins > best[1]:
             best = (k, total_mins)
+
     best2 = (0,0)
     for k, v in G[best[0]].items():
         if v > best2[1]:
             best2 = (k, v)
     return best2[0], best[0]
+
+def get_max2(G):
+    best = (0,0)
+    for k, v in G.items():
+        for key, value in v.items():
+            if value > best[1]:
+                best = (k, value)
+    return best
 
 def parse_line(line):
     message = line.split("]")[1].strip()
