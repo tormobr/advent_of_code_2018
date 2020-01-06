@@ -4,19 +4,14 @@ from nltk import FreqDist
 import numpy as np
 from collections import defaultdict
 
-def part1(data):
-    distances = defaultdict(list)
+def part2(data):
     grid_size = get_max(data)
     grid = create_grid(data, grid_size)
-    #pretty_print(grid)
     for y in range(grid_size):
         for x in range(grid_size):
-            get_distance(x,y,data, distances, grid)
-            print("new iteration")
-    pretty_print(grid)
-    fd = FreqDist(np.array(grid).reshape((grid_size**2))).items()
-    print(fd)
-    return data
+            get_distance(x,y,data, grid)
+    fd = FreqDist(np.array(grid).reshape((grid_size**2)))
+    return fd[2]
 
 def create_grid(data, n):
     grid = []
@@ -33,24 +28,8 @@ def create_grid(data, n):
     return grid
     
 
-def get_distance(x,y, data, ditances, grid):
-    minn = 100000
-    min_x = 0
-    min_y = 0
-    res = []
-    for (x1, y1) in data:
-        neww = (abs(x1-x) + abs(y1-y))
-        res.append(neww)
-    if sum(res) < 10000:
-        grid[y][x] = 2
-
-def pretty_print(grid):
-    res = ""
-    for line in grid:
-        for c in line:
-            res += str(c)
-        res += "\n"
-    print(res)
+def get_distance(x,y, data, grid):
+    grid[y][x] = 2 if sum([abs(x1-x)+abs(y1-y) for (x1, y1) in data]) < 10000 else 0
 
 def get_max(data):
     max_x = max(data, key=lambda x: x[0])[0]
@@ -68,4 +47,4 @@ def infinite(s, res, grid):
 
 if __name__ == "__main__":
     data = [tuple(map(int, line.strip().split(","))) for line in open("input.txt", "r")]
-    print(part1(data))
+    print(f"part 2 answer: {part2(data)}")

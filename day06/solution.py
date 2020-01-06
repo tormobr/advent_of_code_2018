@@ -8,12 +8,9 @@ def part1(data):
     distances = defaultdict(list)
     grid_size = get_max(data)
     grid = create_grid(data, grid_size)
-    #pretty_print(grid)
     for y in range(grid_size):
         for x in range(grid_size):
             get_distance(x,y,data, distances, grid)
-            print("new iteration")
-    pretty_print(grid)
     fd = FreqDist(np.array(grid).reshape((grid_size**2)))
     for s,c in fd.most_common():
         if not infinite(s, None, grid):
@@ -51,14 +48,6 @@ def get_distance(x,y, data, ditances, grid):
         grid[y][x] = "."
         return
     grid[y][x] = grid[min_y][min_x]
-
-def pretty_print(grid):
-    res = ""
-    for line in grid:
-        for c in line:
-            res += str(c)
-        res += "\n"
-    print(res)
 
 def get_max(data):
     max_x = max(data, key=lambda x: x[0])[0]
